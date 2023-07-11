@@ -1,7 +1,5 @@
-﻿namespace MooGameCleanCode2023.Interfaces
+﻿namespace MooGameCleanCode2023.Interfaces;
+public interface IGameResultObserver
 {
-    public interface IGameResultObserver
-    {
-        void NotifyGameResult(string playerName, int guesses);
-    }
+    void NotifyGameResult(string playerName, int guesses);
 }

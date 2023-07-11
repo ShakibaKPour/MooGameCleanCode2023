@@ -1,9 +1,4 @@
 ﻿using MooGameCleanCode2023.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MooGameCleanCode2023.Logics
 {
@@ -89,10 +84,6 @@ namespace MooGameCleanCode2023.Logics
         public void NotifyGameResult(string playerName, int guesses)
         {
             resultManager.SaveGameResult(playerName, guesses);
-        }
-
-        
-
-        
+        }        
     }
 }
