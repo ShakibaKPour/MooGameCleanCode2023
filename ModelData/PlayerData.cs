@@ -1,7 +1,7 @@
-﻿namespace MooGameCleanCode2023.Logics;
+﻿namespace MooGameCleanCode2023.ModelData;
 public class PlayerData
 {
-    public string Name {  get; private set; }
+    public string Name { get; private set; }
     public int NGames { get; private set; }
 
     private int totalGuesses;
@@ -19,7 +19,7 @@ public class PlayerData
         NGames++;
     }
 
-    public double Average() 
+    public double Average()
     {
         return (double)totalGuesses / NGames;
     }

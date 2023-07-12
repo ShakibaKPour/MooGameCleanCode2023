@@ -1,4 +1,4 @@
-﻿namespace MooGameCleanCode2023.Logics;
+﻿namespace MooGameCleanCode2023.SingletonResultLog;
 public class ResultManager
 {
     private static ResultManager instance;
@@ -27,7 +27,7 @@ public class ResultManager
         }
     }
 
-    public List<PlayerData> GetPlayerDataList() 
+    public List<PlayerData> GetPlayerDataList()
     {
         List<PlayerData> results = new List<PlayerData>();
 
@@ -54,5 +54,5 @@ public class ResultManager
         }
         return results;
     }
-    
+
 }

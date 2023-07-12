@@ -1,14 +1,10 @@
-﻿using MooGameCleanCode2023.GoalGenerator;
-using MooGameCleanCode2023.Interfaces;
+﻿namespace MooGameCleanCode2023.Logics;
 
-namespace MooGameCleanCode2023.Logics
+public static class GameLogicFactory
 {
-    public static class GameLogicFactory
+    public static IGameLogic CreateGameLogic()
     {
-        public static IGameLogic CreateGameLogic()
-        {
-            IGoalGenerator goalGenerator = new RandomGoalGenerator();
-            return new GameLogic(goalGenerator);
-        }
+        IGoalGenerator goalGenerator = new RandomGoalGenerator();
+        return new GameLogic(goalGenerator);
     }
 }
