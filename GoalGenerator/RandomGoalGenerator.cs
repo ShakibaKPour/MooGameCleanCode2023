@@ -1,6 +1,4 @@
-﻿using MooGameCleanCode2023.Interfaces;
-
-namespace MooGameCleanCode2023.Logics
+﻿namespace MooGameCleanCode2023.GoalGenerator
 {
 
     public class RandomGoalGenerator : IGoalGenerator

@@ -1,89 +1,86 @@
-﻿using MooGameCleanCode2023.Interfaces;
+﻿namespace MooGameCleanCode2023.Logics;
 
-namespace MooGameCleanCode2023.Logics
+public class GameLogic : IGameLogic, IGameResultObserver
 {
-    public class GameLogic : IGameLogic, IGameResultObserver
+    private const int GoalLength = 4;
+    private int totalGuesses;
+    private List<IGameResultObserver> observers = new List<IGameResultObserver>();
+    private readonly IGoalGenerator goalGenerator;
+    private ResultManager resultManager;
+    public int TotalGuesses => totalGuesses;
+
+    public GameLogic(IGoalGenerator goalGenerator)
     {
-        private const int GoalLength = 4;
-        private int totalGuesses;
-        private List<IGameResultObserver> observers = new List<IGameResultObserver>();
-        private readonly IGoalGenerator goalGenerator;
-        private ResultManager resultManager;
-        public int TotalGuesses => totalGuesses;
+            this.goalGenerator = goalGenerator;
+            resultManager = ResultManager.Instance;
+    }
+    public void RegisterObserver(IGameResultObserver observer)
+    {
+        observers.Add(observer);
+    }
+    public void PlayGame()
+    {
+        string name = GetPlayerName();
+        string goal = goalGenerator.GenerateGoal();
 
-        public GameLogic(IGoalGenerator goalGenerator)
-        {
-                this.goalGenerator = goalGenerator;
-                resultManager = ResultManager.Instance;
-        }
-        public void RegisterObserver(IGameResultObserver observer)
-        {
-            observers.Add(observer);
-        }
-        public void PlayGame()
-        {
-            string name = GetPlayerName();
-            string goal = goalGenerator.GenerateGoal();
+        Console.WriteLine("New game:");
+        Console.WriteLine("For practice, the number is: " + goal);
+        string guess = GetPlayerGuess();
 
-            Console.WriteLine("New game:");
-            Console.WriteLine("For practice, the number is: " + goal);
-            string guess = GetPlayerGuess();
-
-            totalGuesses = 1;
-            string bbcc = CheckBC(goal, guess);
+        totalGuesses = 1;
+        string bbcc = CheckBC(goal, guess);
+        Console.WriteLine(bbcc + "\n");
+        while (bbcc != "BBBB,")
+        {
+            totalGuesses++;
+            guess = GetPlayerGuess();
+            Console.WriteLine(guess);
+            bbcc = CheckBC(goal, guess);
             Console.WriteLine(bbcc + "\n");
-            while (bbcc != "BBBB,")
+        }
+
+        NotifyGameResult(name, totalGuesses);
+    }
+
+    private string GetPlayerName()
+    {
+        Console.WriteLine("Enter your user name:");
+        return Console.ReadLine();
+    }
+
+    private string GetPlayerGuess()
+    {
+        Console.WriteLine("Enter your guess:");
+        return Console.ReadLine();
+    }
+
+    private string CheckBC(string goal, string guess)
+    {
+        int bulls = 0, cows = 0;
+        guess = guess.PadRight(GoalLength);
+
+
+        for (int i = 0; i < GoalLength; i++)
+        {
+            for (int j = 0; j < GoalLength; j++)
             {
-                totalGuesses++;
-                guess = GetPlayerGuess();
-                Console.WriteLine(guess);
-                bbcc = CheckBC(goal, guess);
-                Console.WriteLine(bbcc + "\n");
-            }
-
-            NotifyGameResult(name, totalGuesses);
-        }
-
-        private string GetPlayerName()
-        {
-            Console.WriteLine("Enter your user name:");
-            return Console.ReadLine();
-        }
-
-        private string GetPlayerGuess()
-        {
-            Console.WriteLine("Enter your guess:");
-            return Console.ReadLine();
-        }
-
-        private string CheckBC(string goal, string guess)
-        {
-            int bulls = 0, cows = 0;
-            guess = guess.PadRight(GoalLength);
-
-
-            for (int i = 0; i < GoalLength; i++)
-            {
-                for (int j = 0; j < GoalLength; j++)
+                if (goal[i] == guess[j])
                 {
-                    if (goal[i] == guess[j])
+                    if (i == j)
                     {
-                        if (i == j)
-                        {
-                            bulls++;
-                        }
-                        else
-                        {
-                            cows++;
-                        }
+                        bulls++;
+                    }
+                    else
+                    {
+                        cows++;
                     }
                 }
             }
-            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
-        public void NotifyGameResult(string playerName, int guesses)
-        {
-            resultManager.SaveGameResult(playerName, guesses);
-        }        
+        return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
     }
+    public void NotifyGameResult(string playerName, int guesses)
+    {
+        resultManager.SaveGameResult(playerName, guesses);
+    }        
 }

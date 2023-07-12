@@ -1,4 +1,5 @@
-﻿using MooGameCleanCode2023.Interfaces;
+﻿using MooGameCleanCode2023.GoalGenerator;
+using MooGameCleanCode2023.Interfaces;
 
 namespace MooGameCleanCode2023.Logics
 {
