@@ -54,7 +54,7 @@ public class GameLogic : IGameLogic, IGameResultObserver
         return Console.ReadLine();
     }
 
-    private string CheckBC(string goal, string guess)
+    public string CheckBC(string goal, string guess)
     {
         int bulls = 0, cows = 0;
         guess = guess.PadRight(GoalLength);
