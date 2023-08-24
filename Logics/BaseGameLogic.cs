@@ -23,7 +23,7 @@ public class BaseGameLogic : IGameLogic, IGameResultObserver
     }
     public void PlayGame()
     {
-        goal = goalGenerator.GenerateGoal(goalLength);
+        goal = goalGenerator.GenerateGoal(GoalLength);
         HandleGameFlow();
         NotifyGameResult(name, totalGuesses);
     }
