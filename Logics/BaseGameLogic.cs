@@ -1,15 +1,18 @@
 ﻿namespace MooGameCleanCode2023.Logics;
 
-public class GameLogic : IGameLogic, IGameResultObserver
+public class BaseGameLogic : IGameLogic, IGameResultObserver
 {
-    private const int GoalLength = 4;
-    private int totalGuesses;
-    private List<IGameResultObserver> observers = new List<IGameResultObserver>();
-    private readonly IGoalGenerator goalGenerator;
-    private ResultManager resultManager;
+    private const int goalLength = 4;
+    protected string? goal;
+    protected string? name;
+    protected int totalGuesses;
+    protected List<IGameResultObserver> observers = new List<IGameResultObserver>();
+    protected readonly IGoalGenerator goalGenerator;
+    protected ResultManager resultManager;
     public int TotalGuesses => totalGuesses;
-
-    public GameLogic(IGoalGenerator goalGenerator)
+    public int GoalLength => goalLength;
+     
+    public BaseGameLogic(IGoalGenerator goalGenerator)
     {
             this.goalGenerator = goalGenerator;
             resultManager = ResultManager.Instance;
@@ -20,9 +23,14 @@ public class GameLogic : IGameLogic, IGameResultObserver
     }
     public void PlayGame()
     {
-        string name = GetPlayerName();
-        string goal = goalGenerator.GenerateGoal();
+        goal = goalGenerator.GenerateGoal(goalLength);
+        HandleGameFlow();
+        NotifyGameResult(name, totalGuesses);
+    }
 
+    protected void HandleGameFlow()
+    {
+        name = GetPlayerName();
         Console.WriteLine("New game:");
         Console.WriteLine("For practice, the number is: " + goal);
         string guess = GetPlayerGuess();
@@ -30,7 +38,8 @@ public class GameLogic : IGameLogic, IGameResultObserver
         totalGuesses = 1;
         string bbcc = CheckBC(goal, guess);
         Console.WriteLine(bbcc + "\n");
-        while (bbcc != "BBBB,")
+
+        while (bbcc.Contains('C') || bbcc.Length <= goalLength)
         {
             totalGuesses++;
             guess = GetPlayerGuess();
@@ -39,24 +48,37 @@ public class GameLogic : IGameLogic, IGameResultObserver
             Console.WriteLine(bbcc + "\n");
         }
 
-        NotifyGameResult(name, totalGuesses);
     }
 
-    private string GetPlayerName()
+    protected string GetPlayerName()
     {
         Console.WriteLine("Enter your user name:");
-        return Console.ReadLine();
+        string? name = Console.ReadLine();
+        while (name?.Length == 0)
+        {
+            Console.WriteLine("Your name must be at least 1 character long. Try again:");
+            name = Console.ReadLine();
+        }
+        return name;
     }
 
-    private string GetPlayerGuess()
+    protected string GetPlayerGuess()
     {
         Console.WriteLine("Enter your guess:");
-        return Console.ReadLine();
+        string? guess = Console.ReadLine();
+
+        while (guess?.Length != GoalLength || guess.Any(c => !char.IsDigit(c)))
+        {
+            Console.WriteLine("Your guess must be digits and " + GoalLength + " long. Try again:");
+            guess = Console.ReadLine();
+        }
+
+        return guess;
     }
 
     public string CheckBC(string goal, string guess)
     {
-        int bulls = 0, cows = 0;
+        string bulls = "", cows = "";
         guess = guess.PadRight(GoalLength);
 
 
@@ -68,16 +90,16 @@ public class GameLogic : IGameLogic, IGameResultObserver
                 {
                     if (i == j)
                     {
-                        bulls++;
+                        bulls+="B";
                     }
                     else
                     {
-                        cows++;
+                        cows += "C";
                     }
                 }
             }
         }
-        return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+        return bulls + "," + cows;
     }
     public void NotifyGameResult(string playerName, int guesses)
     {

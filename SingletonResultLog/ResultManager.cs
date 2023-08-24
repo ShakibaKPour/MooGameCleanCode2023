@@ -1,5 +1,5 @@
 ﻿namespace MooGameCleanCode2023.SingletonResultLog;
-public class ResultManager
+public class ResultManager : IResultManager
 {
     private static ResultManager instance;
     private readonly string resultFilePath = "result.txt";

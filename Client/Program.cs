@@ -2,16 +2,16 @@
 
 public class Program
 {
-    private IGameLogic gameLogic;
-    private ResultManager resultManager;
+    private readonly IGameLogic gameLogic;
+    private readonly ResultManager resultManager;
 
-    public Program(IGameLogic gameLogic)
+    public Program(IGameLogic gameLogic, IResultManager resultManager)
     {
         this.gameLogic = gameLogic;
-        resultManager = ResultManager.Instance;
+        this.resultManager = ResultManager.Instance;
     }
 
-    public void Start(IGameLogic gameLogic)
+    public void Start()
     {
         bool playOn = true;
 
@@ -43,8 +43,9 @@ public class Program
     static void Main(string[] args)
     {
         IGameLogic gameLogic = GameLogicFactory.CreateGameLogic();
-        Program program = new Program(gameLogic);
-        program.Start(gameLogic);
+        IResultManager resultManager = ResultManager.Instance;
+        Program program = new Program(gameLogic, resultManager);
+        program.Start();
 
     }
 }

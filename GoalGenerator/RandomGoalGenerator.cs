@@ -3,14 +3,13 @@
 
     public class RandomGoalGenerator : IGoalGenerator
     {
-        private const int GoalLength = 4;
         private readonly Random randomGenerator = new Random();
-        public string GenerateGoal()
+        public string GenerateGoal(int goalLength)
         {
             string goal = "";
             HashSet<int> digits = new HashSet<int>();
 
-            while (digits.Count < GoalLength)
+            while (digits.Count < goalLength)
             {
                 int random = randomGenerator.Next(10);
                 digits.Add(random);

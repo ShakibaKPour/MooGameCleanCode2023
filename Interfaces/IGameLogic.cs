@@ -5,5 +5,7 @@ public interface IGameLogic
 
     int TotalGuesses {  get; }
 
+    int GoalLength { get; } 
+
     void RegisterObserver(IGameResultObserver observer);
 }

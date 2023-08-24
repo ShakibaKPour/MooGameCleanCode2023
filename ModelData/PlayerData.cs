@@ -1,10 +1,10 @@
 ﻿namespace MooGameCleanCode2023.ModelData;
 public class PlayerData
 {
-    public string Name { get; private set; }
-    public int NGames { get; private set; }
+    public string Name { get; set; }
+    public int NGames { get; set; }
 
-    private int totalGuesses;
+    public int totalGuesses;
 
     public PlayerData(string name, int guesses)
     {
