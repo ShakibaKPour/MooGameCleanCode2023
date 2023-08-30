@@ -2,7 +2,7 @@
 
 public class GameResultNotifier : IGameResultObserver
 {
-    private readonly ResultManager resultManager;
+    private readonly IResultManager resultManager;
     public GameResultNotifier()
     {
         resultManager = ResultManager.Instance;
