@@ -3,9 +3,9 @@
 public class GameResultNotifier : IGameResultObserver
 {
     private readonly IResultManager resultManager;
-    public GameResultNotifier() 
+    public GameResultNotifier(IResultManager resultManager) 
     { 
-        resultManager = ResultManager.Instance;
+        this.resultManager = resultManager;
     }
 
     public void NotifyGameResult(string playerName, int guesses)
