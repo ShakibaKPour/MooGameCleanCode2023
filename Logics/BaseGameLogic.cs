@@ -1,6 +1,6 @@
 ﻿namespace MooGameCleanCode2023.Logics;
 
-public class BaseGameLogic : IGameLogic, IGameResultObserver
+public class BaseGameLogic : IGameLogic
 {
     private const int goalLength = 4;
     protected string? goal;
@@ -8,15 +8,16 @@ public class BaseGameLogic : IGameLogic, IGameResultObserver
     protected int totalGuesses;
     protected List<IGameResultObserver> observers = new List<IGameResultObserver>();
     protected readonly IGoalGenerator goalGenerator;
-    protected ResultManager resultManager;
+    protected IGameResultObserver gameResultObserver;
     public int TotalGuesses => totalGuesses;
     public int GoalLength => goalLength;
      
-    public BaseGameLogic(IGoalGenerator goalGenerator)
+    public BaseGameLogic(IGoalGenerator goalGenerator, IGameResultObserver gameResultObserver)
     {
             this.goalGenerator = goalGenerator;
-            resultManager = ResultManager.Instance;
+            this.gameResultObserver = gameResultObserver;
     }
+
     public void RegisterObserver(IGameResultObserver observer)
     {
         observers.Add(observer);
@@ -25,7 +26,7 @@ public class BaseGameLogic : IGameLogic, IGameResultObserver
     {
         goal = goalGenerator.GenerateGoal(GoalLength);
         HandleGameFlow();
-        NotifyGameResult(name, totalGuesses);
+        gameResultObserver.NotifyGameResult(name, totalGuesses);
     }
 
     protected void HandleGameFlow()
@@ -101,8 +102,4 @@ public class BaseGameLogic : IGameLogic, IGameResultObserver
         }
         return bulls + "," + cows;
     }
-    public void NotifyGameResult(string playerName, int guesses)
-    {
-        resultManager.SaveGameResult(playerName, guesses);
-    }        
 }

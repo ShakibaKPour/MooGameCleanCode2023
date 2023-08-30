@@ -1,10 +1,13 @@
-﻿namespace MooGameCleanCode2023.Logics;
+﻿using MooGameCleanCode2023.GameResultObsever;
+
+namespace MooGameCleanCode2023.Logics;
 
 public static class GameLogicFactory
 {
     public static IGameLogic CreateGameLogic()
     {
         IGoalGenerator goalGenerator = new RandomGoalGenerator();
-        return new BaseGameLogic(goalGenerator);
+        IGameResultObserver gameResultNotifier = new GameResultNotifier();
+        return new BaseGameLogic(goalGenerator, gameResultNotifier);
     }
 }

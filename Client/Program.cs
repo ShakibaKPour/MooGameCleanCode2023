@@ -3,12 +3,12 @@
 public class Program
 {
     private readonly IGameLogic gameLogic;
-    private readonly ResultManager resultManager;
+    private readonly IResultManager resultManager;
 
     public Program(IGameLogic gameLogic, IResultManager resultManager)
     {
         this.gameLogic = gameLogic;
-        this.resultManager = ResultManager.Instance;
+        this.resultManager = resultManager;
     }
 
     public void Start()

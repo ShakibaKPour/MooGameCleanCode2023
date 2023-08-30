@@ -8,7 +8,7 @@ namespace MooGameCleanCode2023.Logics
     {
         private const int goalLength = 6;
 
-        public GameLogic6(IGoalGenerator goalGenerator) : base(goalGenerator)
+        public GameLogic6(IGoalGenerator goalGenerator, IGameResultObserver gameResultObserver) : base(goalGenerator, gameResultObserver)
         {
         }
 
@@ -20,7 +20,7 @@ namespace MooGameCleanCode2023.Logics
         {
             goal = goalGenerator.GenerateGoal(goalLength);
             HandleGameFlow();
-            NotifyGameResult(name, totalGuesses);
+            gameResultObserver.NotifyGameResult(name, totalGuesses);
         }
     }
 }
