@@ -8,6 +8,13 @@ public static class GameLogicFactory
     {
         IGoalGenerator goalGenerator = new RandomGoalGenerator();
         IGameResultObserver gameResultNotifier = new GameResultNotifier();
-        return new BaseGameLogic(goalGenerator, gameResultNotifier);
+        return new BaseGameLogic(goalGenerator, gameResultNotifier, 4);
+    }
+
+    public static IGameLogic CreateGameLogic6()
+    {
+        IGoalGenerator goalGenerator = new RandomGoalGenerator();
+        IGameResultObserver gameResultNotifier = new GameResultNotifier();
+        return new GameLogic6(goalGenerator, gameResultNotifier);
     }
 }

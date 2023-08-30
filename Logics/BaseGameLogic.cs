@@ -2,7 +2,7 @@
 
 public class BaseGameLogic : IGameLogic
 {
-    private const int goalLength = 4;
+    protected int goalLength;
     protected string? goal;
     protected string? name;
     protected int totalGuesses;
@@ -12,10 +12,11 @@ public class BaseGameLogic : IGameLogic
     public int TotalGuesses => totalGuesses;
     public int GoalLength => goalLength;
      
-    public BaseGameLogic(IGoalGenerator goalGenerator, IGameResultObserver gameResultObserver)
+    public BaseGameLogic(IGoalGenerator goalGenerator, IGameResultObserver gameResultObserver, int goalLength)
     {
             this.goalGenerator = goalGenerator;
             this.gameResultObserver = gameResultObserver;
+            this.goalLength = goalLength;
     }
 
     public void RegisterObserver(IGameResultObserver observer)
