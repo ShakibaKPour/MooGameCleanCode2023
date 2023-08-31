@@ -1,11 +1,13 @@
-﻿namespace MooGameCleanCode2023.GameResultObsever;
+﻿using MooGameCleanCode2023.SingletonResultLog;
+
+namespace MooGameCleanCode2023.GameResultObsever;
 
 public class GameResultNotifier : IGameResultObserver
 {
     private readonly IResultManager resultManager;
-    public GameResultNotifier()
+    public GameResultNotifier(IResultManager resultManager)
     {
-        resultManager = ResultManager.Instance;
+        this.resultManager = resultManager;
     }
 
     public void NotifyGameResult(string playerName, int guesses)
