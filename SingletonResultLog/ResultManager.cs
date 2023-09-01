@@ -1,7 +1,9 @@
 ﻿namespace MooGameCleanCode2023.SingletonResultLog;
 public class ResultManager : IResultManager
 {
+
     private static ResultManager instance;
+    private static readonly object _lock = new object();
     private readonly string resultFilePath = "result.txt";
     private ResultManager() { }
 
@@ -11,7 +13,11 @@ public class ResultManager : IResultManager
         {
             if (instance == null)
             {
-                instance = new ResultManager();
+                lock (_lock)
+                {
+                    if (instance == null) instance = new ResultManager();
+                }
+
             }
             return instance;
         }
@@ -56,3 +62,4 @@ public class ResultManager : IResultManager
     }
 
 }
+
